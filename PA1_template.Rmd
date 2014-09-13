@@ -32,7 +32,7 @@ steps_median
 Make a histogram of the total number of steps taken each day
 
 ```{r, fig.height=5, fig.width=10}
-ggplot(steps_sum, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='# of Steps taken', y='# of Days (53 total days)')
+ggplot(steps_sum, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='Daily Steps', y='Frequency (days)')
 ```
 
 
@@ -42,7 +42,7 @@ Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and 
 
 ```{r, fig.height=5, fig.width=10}
 steps_interval <- aggregate(steps ~ interval, FUN = mean, data)
-ggplot(data = steps_interval, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='# of Steps taken')
+ggplot(data = steps_interval, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='Steps')
 ```
 
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -84,7 +84,7 @@ steps_median_imputed <- median(steps_sum_imputed$steps, na.rm = TRUE)
 ```
 
 ```{r, fig.height=5, fig.width=10}
-ggplot(steps_sum_imputed, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='# of Steps taken', y='# of Days (53 total days)')
+ggplot(steps_sum_imputed, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='Daily Steps', y='Frequency (days)')
 ```
 
 ```{r}
@@ -115,7 +115,6 @@ for (i in 1:nrow(imputed_data)) {
 Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
 ```{r, fig.width=10}
-library(lattice)
 steps_interval_day <- aggregate(steps ~ interval + day, imputed_data, mean)
-xyplot(steps ~ interval | day, data = steps_interval_day, layout = c(1, 2), type = "l")
+ggplot(data = steps_interval_day, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='Steps') + facet_grid(day ~ .)
 ```

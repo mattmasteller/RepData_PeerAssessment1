@@ -45,7 +45,7 @@ Make a histogram of the total number of steps taken each day
 
 
 ```r
-ggplot(steps_sum, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='# of Steps taken', y='# of Days (53 total days)')
+ggplot(steps_sum, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='Daily Steps', y='Frequency (days)')
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
@@ -58,7 +58,7 @@ Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and 
 
 ```r
 steps_interval <- aggregate(steps ~ interval, FUN = mean, data)
-ggplot(data = steps_interval, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='# of Steps taken')
+ggplot(data = steps_interval, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='Steps')
 ```
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
@@ -115,7 +115,7 @@ steps_median_imputed <- median(steps_sum_imputed$steps, na.rm = TRUE)
 
 
 ```r
-ggplot(steps_sum_imputed, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='# of Steps taken', y='# of Days (53 total days)')
+ggplot(steps_sum_imputed, aes(x=steps)) + geom_histogram(binwidth=5000, color='black',fill='white') + labs(x='Daily Steps', y='Frequency (days)')
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
@@ -162,9 +162,8 @@ Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minut
 
 
 ```r
-library(lattice)
 steps_interval_day <- aggregate(steps ~ interval + day, imputed_data, mean)
-xyplot(steps ~ interval | day, data = steps_interval_day, layout = c(1, 2), type = "l")
+ggplot(data = steps_interval_day, aes(x=interval, y=steps, group=1)) + geom_line() + labs(x='Interval', y='Steps') + facet_grid(day ~ .)
 ```
 
 ![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
